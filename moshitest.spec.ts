@@ -11,7 +11,8 @@ test('Moshi thing', async ({ page }) => {
 	const japan = page.getByTestId('Japan-name');
 	await japan.click();
 	
-	const buybutton = page.getByRole('link', { name: 'Moshi Moshi Moshi Moshi  COVERAGE Japan  DATA 1 GB  VALIDITY 7 Days PRICE $4' }).getByRole('button');
+	//const buybutton = page.getByRole('link', { name: 'Moshi Moshi Moshi Moshi  COVERAGE Japan  DATA 1 GB  VALIDITY 7 Days PRICE $4' }).getByRole('button');
+	const buybutton = page.getByTestId('esim-button'[0]);
 	await buybutton.click();
 	
 	const operator = page.getByTestId('sim-detail-operator-title');
