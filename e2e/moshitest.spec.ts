@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Moshi thing', async ({ page }) => {
 	//expected card data
-	const card = {country: 'Japan',	operator: 'Moshi Moshi', dataAllowance: '1 GB', validity: '7 Days',	price: '$4.50'};
+	const card = {position: 1, country: 'Japan',	operator: 'Moshi Moshi', dataAllowance: '1 GB', validity: '7 Days',	price: '$4.50'};
 	
 	//go to website
 	await page.goto('https://www.airalo.com');
@@ -16,7 +16,7 @@ test('Moshi thing', async ({ page }) => {
 	await page.getByTestId(card.country + '-name').click();
 	
 	//click buy
-	page.getByTestId('esim-button').nth(0).click();
+	page.getByTestId('esim-button').nth(card.position - 1).click();
 	
 	//check card operator
 	await expect(page.getByTestId('sim-detail-operator-title')).toContainText(card.operator);
