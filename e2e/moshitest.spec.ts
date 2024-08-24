@@ -1,35 +1,38 @@
 import { test, expect } from '@playwright/test';
 
 test('Moshi thing', async ({ page }) => {
+	//expected card data
+	const card = {country: 'Japan',	operator: 'Moshi Moshi', dataAllowance: '1 GB', validity: '7 Days',	price: '$4.50'};
 	
+	//go to website
 	await page.goto('https://www.airalo.com');
 	
+	//click and input country
 	const box = page.getByTestId('search-input');
 	await box.click();
-	await box.pressSequentially("Japan");
+	await box.pressSequentially(card.country);
 	
-	const japan = page.getByTestId('Japan-name');
-	await japan.click();
+	//click country on dropdown
+	await page.getByTestId(card.country + '-name').click();
 	
-	//const buybutton = page.getByRole('link', { name: 'Moshi Moshi Moshi Moshi  COVERAGE Japan  DATA 1 GB  VALIDITY 7 Days PRICE $4' }).getByRole('button');
-	const buybutton = page.getByTestId('esim-button').nth(0);
-	await buybutton.click();
+	//click buy
+	page.getByTestId('esim-button').nth(0).click();
 	
-	const operator = page.getByTestId('sim-detail-operator-title');
-	await expect(operator).toContainText('Moshi Moshi');
+	//check card operator
+	await expect(page.getByTestId('sim-detail-operator-title')).toContainText(card.operator);
 		
-	const cardData = page.getByTestId('sim-detail-info-list');
+	const cardInfo = page.getByTestId('sim-detail-info-list');
 	
-	const coverage = cardData.getByTestId('COVERAGE-value');
-	await expect(coverage).toContainText('Japan');
+	//check coverage
+	await expect(cardInfo.getByTestId('COVERAGE-value')).toContainText(card.country);
 	
-	const data = cardData.getByTestId('DATA-value');
-	await expect(data).toContainText('1 GB');
+	//check data allowance
+	await expect(cardInfo.getByTestId('DATA-value')).toContainText(card.dataAllowance);
 	
-	const validity = cardData.getByTestId('VALIDITY-value');
-	await expect(validity).toContainText('7 Days');
+	//check validity
+	await expect(cardInfo.getByTestId('VALIDITY-value')).toContainText(card.validity);
 	
-	const price = cardData.getByTestId('PRICE-value');
-	await expect(price).toContainText('$4.50');
+	//check price
+	await expect(cardInfo.getByTestId('PRICE-value')).toContainText(card.price);
 
 });
